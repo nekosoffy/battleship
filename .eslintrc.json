@@ -1,0 +1,25 @@
+{
+    "extends": ["airbnb", "prettier"],
+    "plugins": ["prettier"],
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        //We can specify more rules that we need here
+      "prettier/prettier": ["error"],
+      "import/extensions": ["error", "ignorePackages", { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" }],
+      "no-plusplus": [2, { "allowForLoopAfterthoughts": true }]
+    },
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "overrides": [
+    {
+      "files": ["**/*.test.js"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
+}
