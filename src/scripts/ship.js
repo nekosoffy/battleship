@@ -1,6 +1,3 @@
-import './reset.css';
-import './styles.css';
-
 const ship = function createShip(size) {
   const length = size;
   let hits = 0;
@@ -18,7 +15,7 @@ const ship = function createShip(size) {
     return sunk;
   };
 
-  return { hit, isSunk };
+  return { hit, isSunk, length };
 };
 
 export { ship };

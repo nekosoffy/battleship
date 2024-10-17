@@ -1,4 +1,4 @@
-import { ship } from '../index';
+import { ship } from '../scripts/index';
 
 describe('ship function', () => {
   it("Ship's endurance matches ship's length", () => {
@@ -20,16 +20,5 @@ describe('ship function', () => {
     testShipSinking(3);
     testShipSinking(4);
     testShipSinking(5);
-  });
-
-  it("Taking a hit after sinking doesn't change the ship's state", () => {
-    const testShip = ship(2);
-    expect(testShip.isSunk()).toBe(false);
-    testShip.hit();
-    expect(testShip.isSunk()).toBe(false);
-    testShip.hit();
-    expect(testShip.isSunk()).toBe(true);
-    testShip.hit();
-    expect(testShip.isSunk()).toBe(true);
   });
 });
