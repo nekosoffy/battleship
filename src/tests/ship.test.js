@@ -1,7 +1,7 @@
-import { ship } from '../scripts/ship';
+import ship from '../scripts/ship';
 
 describe('ship function', () => {
-  it('Ship can only have an appropriate length.', () => {
+  it("Ship's length has to be in the correct length range.", () => {
     const testShip = ship(6);
     const testShipTwo = ship(1);
     expect(testShip).toBe(null);
