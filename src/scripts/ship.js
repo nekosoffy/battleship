@@ -22,4 +22,4 @@ const ship = function createShip(size) {
   return { hit, isSunk, length };
 };
 
-export { ship };
+export default ship;
