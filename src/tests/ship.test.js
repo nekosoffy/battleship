@@ -1,7 +1,14 @@
-import { ship } from '../scripts/index';
+import { ship } from '../scripts/ship';
 
 describe('ship function', () => {
-  it("Ship's endurance matches ship's length", () => {
+  it('Ship can only have an appropriate length.', () => {
+    const testShip = ship(6);
+    const testShipTwo = ship(1);
+    expect(testShip).toBe(null);
+    expect(testShipTwo).toBe(null);
+  });
+
+  it("Ship's endurance matches ship's length.", () => {
     const testShipSinking = (length) => {
       const testShip = ship(length);
       expect(testShip.isSunk()).toBe(false);
