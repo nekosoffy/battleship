@@ -1,4 +1,8 @@
 const ship = function createShip(size) {
+  if (size < 2 || size > 5) {
+    return null;
+  }
+
   const length = size;
   let hits = 0;
   let sunk = false;
