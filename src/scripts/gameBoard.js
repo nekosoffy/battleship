@@ -8,7 +8,7 @@ const gameBoard = function createGameboard() {
     return board[x][y];
   };
 
-  const rotateShip = function rotateShipPlacement() {
+  const rotate = function rotateShipPlacement() {
     isHorizontal = !isHorizontal;
   };
 
@@ -93,7 +93,7 @@ const gameBoard = function createGameboard() {
     return false;
   };
 
-  return { grid, rotateShip, placeShip, receiveAttack, shipsSank };
+  return { grid, rotate, placeShip, receiveAttack, shipsSank };
 };
 
 export default gameBoard;

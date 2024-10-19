@@ -18,7 +18,7 @@ describe('gameBoard function', () => {
   });
 
   it('Ship is placed at the specified coordinate, vertically.', () => {
-    testBoard.rotateShip();
+    testBoard.rotate();
     testBoard.placeShip([3, 5], testShip);
     expect(testBoard.grid(2, 5)).toBe(testShip);
     expect(testBoard.grid(3, 5)).toBe(testShip);
@@ -33,7 +33,7 @@ describe('gameBoard function', () => {
   });
 
   it("Ship isn't placed vertically if parts of it go out of bounds.", () => {
-    testBoard.rotateShip();
+    testBoard.rotate();
     testBoard.placeShip([0, 5], testShip);
     testBoard.placeShip([9, 5], testShip);
     expect(testBoard.grid(0, 5)).toBe(null);
