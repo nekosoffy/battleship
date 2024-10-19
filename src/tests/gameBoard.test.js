@@ -10,6 +10,12 @@ describe('gameBoard function', () => {
     testShip = ship(3);
   });
 
+  it('Board is initialized only with null elements.', () => {
+    testBoard.boardArray().forEach((el) => {
+      expect(el).toEqual(Array(10).fill(null));
+    });
+  });
+
   it('Ship is placed at the specified coordinate, horizontally.', () => {
     testBoard.placeShip([3, 5], testShip);
     expect(testBoard.grid(3, 4)).toBe(testShip);
