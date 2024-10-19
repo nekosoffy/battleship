@@ -1,0 +1,31 @@
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+main {
+  display: flex;
+  gap: 10vw;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+section {
+  width: 500px;
+  grid-template-columns: repeat(10, 1fr);
+  display: grid;
+  flex-wrap: wrap;
+}
+
+section div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  aspect-ratio: 1/1;
+}
+
+.hit {
+  background-color: rgb(238, 81, 81);
+}
+
