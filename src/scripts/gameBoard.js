@@ -4,6 +4,10 @@ const gameBoard = function createGameboard() {
   const unsinkedShips = [];
   let isHorizontal = true;
 
+  const boardArray = function getBoardArray() {
+    return board;
+  };
+
   const grid = function getGrid(x, y) {
     return board[x][y];
   };
@@ -94,7 +98,14 @@ const gameBoard = function createGameboard() {
     return false;
   };
 
-  return { grid, rotate, placeShip, receiveAttack, shipsSank };
+  return {
+    boardArray,
+    grid,
+    rotate,
+    placeShip,
+    receiveAttack,
+    shipsSank,
+  };
 };
 
 export default gameBoard;
