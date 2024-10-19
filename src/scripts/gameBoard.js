@@ -13,7 +13,7 @@ const gameBoard = function createGameboard() {
   };
 
   const placeShip = function placeShipOnBoard(coordinates, object) {
-    const { length } = object;
+    const length = object.getLength();
     const row = board[coordinates[0]];
     const centerCol = coordinates[1];
 

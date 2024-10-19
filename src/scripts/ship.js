@@ -19,7 +19,11 @@ const ship = function createShip(size) {
     return sunk;
   };
 
-  return { hit, isSunk, length };
+  const getLength = function getShipLength() {
+    return length;
+  };
+
+  return { hit, isSunk, getLength };
 };
 
 export default ship;
