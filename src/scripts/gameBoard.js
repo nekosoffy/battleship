@@ -72,6 +72,7 @@ const gameBoard = function createGameboard() {
     const target = board[x][y];
     if (typeof target === 'object' && target !== null) {
       target.hit();
+      board[x][y] = 'hit';
       invalidCoordinates.push([x, y]);
 
       if (target.isSunk() === true) {
