@@ -1,4 +1,4 @@
-import gameboard from '../scripts/gameboard';
+import gameBoard from '../scripts/gameBoard';
 import ship from '../scripts/ship';
 
 describe('gameboard function', () => {
@@ -6,7 +6,7 @@ describe('gameboard function', () => {
   let testShip;
 
   beforeEach(() => {
-    testBoard = gameboard();
+    testBoard = gameBoard();
     testShip = ship(3);
   });
 

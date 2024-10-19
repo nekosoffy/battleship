@@ -1,4 +1,4 @@
-const gameboard = function createGameboard() {
+const gameBoard = function createGameboard() {
   const board = Array.from({ length: 10 }, () => Array(10).fill(null));
   const invalidCoordinates = [];
   const unsinkedShips = [];
@@ -96,4 +96,4 @@ const gameboard = function createGameboard() {
   return { grid, rotateShip, placeShip, receiveAttack, shipsSank };
 };
 
-export default gameboard;
+export default gameBoard;
