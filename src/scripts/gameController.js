@@ -11,6 +11,32 @@ let playerOneTurn = true;
 const playerOne = player();
 const playerTwo = player();
 
+const playTurn = function playGameTurn(target) {
+  if (playerOneTurn === true && target.parentNode.id === 'first-board') {
+    const clickedCoordinate = handleClick(target);
+    const sucessfulShot = playerOne
+      .board()
+      .receiveAttack(clickedCoordinate[0], clickedCoordinate[1]);
+
+    if (sucessfulShot) {
+      gridOne(playerOne.board().boardArray());
+      playerOneTurn = false;
+      return;
+    }
+  }
+
+  if (playerOneTurn === false && target.parentNode.id === 'second-board') {
+    const clickedCoordinate = handleClick(target);
+    const sucessfulShot = playerTwo
+      .board()
+      .receiveAttack(clickedCoordinate[0], clickedCoordinate[1]);
+    if (sucessfulShot) {
+      gridComputer(playerTwo.board().boardArray());
+      playerOneTurn = true;
+    }
+  }
+};
+
 playerOne.board().placeShip([0, 1], playerOne.getShip('two'));
 playerOne.board().placeShip([1, 2], playerOne.getShip('threeOne'));
 playerOne.board().placeShip([2, 3], playerOne.getShip('threeTwo'));
@@ -31,29 +57,6 @@ gridComputer(playerTwo.board().boardArray());
 sections.forEach((el) => {
   el.addEventListener('click', (event) => {
     const { target } = event;
-
-    if (playerOneTurn === true && target.parentNode.id === 'first-board') {
-      const clickedCoordinate = handleClick(target);
-      const sucessfulShot = playerOne
-        .board()
-        .receiveAttack(clickedCoordinate[0], clickedCoordinate[1]);
-
-      if (sucessfulShot) {
-        gridOne(playerOne.board().boardArray());
-        playerOneTurn = false;
-        return;
-      }
-    }
-
-    if (playerOneTurn === false && target.parentNode.id === 'second-board') {
-      const clickedCoordinate = handleClick(target);
-      const sucessfulShot = playerTwo
-        .board()
-        .receiveAttack(clickedCoordinate[0], clickedCoordinate[1]);
-      if (sucessfulShot) {
-        gridComputer(playerTwo.board().boardArray());
-        playerOneTurn = true;
-      }
-    }
+    playTurn(target);
   });
 });
