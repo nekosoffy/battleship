@@ -70,7 +70,7 @@ describe('gameBoard function', () => {
 
   it('Board keeps track of missed attacks.', () => {
     testBoard.receiveAttack(4, 5);
-    expect(testBoard.grid(4, 5)).toBe('shot');
+    expect(testBoard.grid(4, 5)).toBe('miss');
   });
 
   it('Attacks on the same spot are unsuccessful.', () => {
