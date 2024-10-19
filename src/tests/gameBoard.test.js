@@ -1,7 +1,7 @@
 import gameBoard from '../scripts/gameBoard';
 import ship from '../scripts/ship';
 
-describe('gameboard function', () => {
+describe('gameBoard function', () => {
   let testBoard;
   let testShip;
 
