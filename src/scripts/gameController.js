@@ -6,8 +6,17 @@ import '../styles/styles.css';
 const sections = document.querySelectorAll('section');
 
 let playerOneTurn = true;
+let playerHasWon = false;
 const playerOne = player();
 const playerTwo = player();
+
+const checkWin = function checkWinCondition() {
+  if (playerOne.board().shipsSank()) {
+    playerHasWon = true;
+  } else if (playerTwo.board().shipsSank()) {
+    playerHasWon = true;
+  }
+};
 
 const playTurn = function playGameTurn(target) {
   if (playerOneTurn === true && target.parentNode.id === 'first-board') {
@@ -19,6 +28,7 @@ const playTurn = function playGameTurn(target) {
     if (sucessfulShot) {
       renderGrid(playerOne.board().boardArray());
       playerOneTurn = false;
+      checkWin();
       return;
     }
   }
@@ -31,6 +41,7 @@ const playTurn = function playGameTurn(target) {
     if (sucessfulShot) {
       renderCompGrid(playerTwo.board().boardArray());
       playerOneTurn = true;
+      checkWin();
     }
   }
 };
@@ -54,7 +65,9 @@ renderCompGrid(playerTwo.board().boardArray());
 
 sections.forEach((el) => {
   el.addEventListener('click', (event) => {
-    const { target } = event;
-    playTurn(target);
+    if (playerHasWon === false) {
+      const { target } = event;
+      playTurn(target);
+    }
   });
 });
