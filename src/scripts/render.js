@@ -53,4 +53,9 @@ const handleClick = function handleGridClick(target) {
   return [x, y];
 };
 
-export { renderGrid, renderCompGrid, handleClick };
+const announceWin = function announceRoundWinner(string) {
+  const heading = document.querySelector('h2');
+  heading.textContent = string;
+};
+
+export { renderGrid, renderCompGrid, handleClick, announceWin };
