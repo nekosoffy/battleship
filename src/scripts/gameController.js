@@ -13,10 +13,10 @@ const computer = player();
 const checkWin = function checkWinCondition() {
   if (playerOne.board().shipsSank()) {
     playerHasWon = true;
-    announceWin('Player has won!');
+    announceWin('Computer has won!');
   } else if (computer.board().shipsSank()) {
     playerHasWon = true;
-    announceWin('Computer has won!');
+    announceWin('Player has won!');
   }
 };
 
