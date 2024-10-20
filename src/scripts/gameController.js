@@ -1,7 +1,5 @@
-import ship from './ship';
-import gameBoard from './gameBoard';
 import player from './player';
-import { gridOne, gridComputer, handleClick } from './render';
+import { renderGrid, renderCompGrid, handleClick } from './render';
 import '../styles/reset.css';
 import '../styles/styles.css';
 
@@ -19,7 +17,7 @@ const playTurn = function playGameTurn(target) {
       .receiveAttack(clickedCoordinate[0], clickedCoordinate[1]);
 
     if (sucessfulShot) {
-      gridOne(playerOne.board().boardArray());
+      renderGrid(playerOne.board().boardArray());
       playerOneTurn = false;
       return;
     }
@@ -31,7 +29,7 @@ const playTurn = function playGameTurn(target) {
       .board()
       .receiveAttack(clickedCoordinate[0], clickedCoordinate[1]);
     if (sucessfulShot) {
-      gridComputer(playerTwo.board().boardArray());
+      renderCompGrid(playerTwo.board().boardArray());
       playerOneTurn = true;
     }
   }
@@ -51,8 +49,8 @@ playerTwo.board().rotate();
 playerTwo.board().placeShip([5, 5], playerTwo.getShip('four'));
 playerTwo.board().placeShip([5, 6], playerTwo.getShip('five'));
 
-gridOne(playerOne.board().boardArray());
-gridComputer(playerTwo.board().boardArray());
+renderGrid(playerOne.board().boardArray());
+renderCompGrid(playerTwo.board().boardArray());
 
 sections.forEach((el) => {
   el.addEventListener('click', (event) => {

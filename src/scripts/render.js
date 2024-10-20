@@ -2,7 +2,7 @@ const sections = document.querySelectorAll('section');
 const boardOne = sections[0];
 const boardTwo = sections[1];
 
-function gridOne(array) {
+const renderGrid = function renderPlayerOneGrid(array) {
   boardOne.replaceChildren();
   const flatArray = array.flat();
   flatArray.forEach((el) => {
@@ -23,9 +23,9 @@ function gridOne(array) {
 
     boardOne.appendChild(div);
   });
-}
+};
 
-function gridComputer(array) {
+const renderCompGrid = function renderComputerGrid(array) {
   boardTwo.replaceChildren();
   const flatArray = array.flat();
   flatArray.forEach((el) => {
@@ -42,7 +42,7 @@ function gridComputer(array) {
 
     boardTwo.appendChild(div);
   });
-}
+};
 
 function handleClick(target) {
   let squares = target.parentNode.querySelectorAll('div');
@@ -53,4 +53,4 @@ function handleClick(target) {
   return [x, y];
 }
 
-export { gridOne, gridComputer, handleClick };
+export { renderGrid, renderCompGrid, handleClick };
