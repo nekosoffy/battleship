@@ -44,13 +44,13 @@ const renderCompGrid = function renderComputerGrid(array) {
   });
 };
 
-function handleClick(target) {
+const handleClick = function handleGridClick(target) {
   let squares = target.parentNode.querySelectorAll('div');
   squares = [...squares];
   const coordinate = squares.indexOf(target);
   const x = Math.floor(coordinate / 10);
   const y = coordinate % 10;
   return [x, y];
-}
+};
 
 export { renderGrid, renderCompGrid, handleClick };
