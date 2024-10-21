@@ -82,7 +82,11 @@ const gameBoard = function createGameboard() {
       if (target.isSunk() === true) {
         unsinkedShips.splice(unsinkedShips[unsinkedShips.indexOf(target)], 1);
       }
-    } else if (target === null) {
+
+      return 'ship';
+    }
+
+    if (target === null) {
       board[x][y] = 'miss';
       invalidCoordinates.push([x, y]);
     }
