@@ -1,11 +1,11 @@
 import ship from '../scripts/ship';
 
 describe('ship function', () => {
-  it("Ship's length has to be in the correct length range.", () => {
+  it('Ship of incorrect length returns undefined.', () => {
     const testShip = ship(6);
     const testShipTwo = ship(1);
-    expect(testShip).toBe(null);
-    expect(testShipTwo).toBe(null);
+    expect(testShip).toBeUndefined();
+    expect(testShipTwo).toBeUndefined();
   });
 
   it("Ship's endurance matches ship's length.", () => {

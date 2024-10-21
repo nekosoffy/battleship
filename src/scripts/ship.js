@@ -1,6 +1,6 @@
 const ship = function createShip(size) {
   if (size < 2 || size > 5) {
-    return null;
+    return undefined;
   }
 
   const length = size;
