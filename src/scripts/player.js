@@ -16,9 +16,19 @@ const player = function createPlayer() {
     return ships[type];
   };
 
+  const placeAllShips = function placeAllShipsRandomly() {
+    const shipsToBePlaced = Object.values(ships);
+    while (shipsToBePlaced.length) {
+      if (board.placeShipRandom(shipsToBePlaced.at(-1))) {
+        shipsToBePlaced.pop();
+      }
+    }
+  };
+
   return {
     ...board,
     getShip,
+    placeAllShips,
   };
 };
 

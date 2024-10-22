@@ -46,6 +46,21 @@ describe('player function', () => {
     testPlayer.placeShip([2, 2], testPlayer.getShip('two'));
     expect(testPlayerTwo.grid(2, 2)).toBe(null);
   });
+
+  it('Player can place all ships randomly.', () => {
+    const placements = new Set();
+    const runs = 1000;
+
+    for (let i = 0; i < runs; i++) {
+      const testPlayerTwo = player();
+      testPlayerTwo.placeAllShips();
+      const coordinates = testPlayerTwo.boardArray();
+
+      placements.add(coordinates.toString());
+    }
+
+    expect(placements.size).toBe(1000);
+  });
 });
 
 describe('computer function', () => {

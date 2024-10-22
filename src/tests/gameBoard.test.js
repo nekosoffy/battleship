@@ -52,6 +52,35 @@ describe('gameBoard function', () => {
     expect(testBoard.placeShip([4, 4], testShipTwo)).toBe(false);
   });
 
+  it('Ship can be placed randomly', () => {
+    function getShipCoordinates(board, targetShip) {
+      const coordinates = [];
+      board.flat().forEach((grid, index) => {
+        if (grid === targetShip) {
+          coordinates.push(index);
+        }
+      });
+      return coordinates;
+    }
+
+    const placements = new Set();
+    const runs = 100;
+
+    for (let i = 0; i < runs; i++) {
+      const testBoardTwo = gameBoard();
+      testBoardTwo.placeShipRandom(testShip);
+
+      const coordinates = getShipCoordinates(
+        testBoardTwo.boardArray(),
+        testShip,
+      );
+
+      placements.add(coordinates.toString());
+    }
+
+    expect(placements.size).toBeGreaterThan(runs / 2);
+  });
+
   it('Ship takes hits appropriately.', () => {
     testBoard.placeShip([5, 5], testShip);
     testBoard.receiveAttack(5, 4);

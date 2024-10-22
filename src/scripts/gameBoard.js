@@ -66,6 +66,22 @@ const gameBoard = function createGameboard() {
     return true;
   };
 
+  const placeShipRandom = function placeShipOnBoardRandomly(object) {
+    if (Math.random() < 0.5) {
+      rotate();
+    }
+
+    let placement = false;
+
+    while (!placement) {
+      const x = Math.floor(Math.random() * 10);
+      const y = Math.floor(Math.random() * 10);
+      placement = placeShip([x, y], object);
+    }
+
+    return placement;
+  };
+
   const receiveAttack = function receiveEnemyAttack(x, y) {
     if (
       invalidCoordinates.some((element) => element[0] === x && element[1] === y)
@@ -107,6 +123,7 @@ const gameBoard = function createGameboard() {
     grid,
     rotate,
     placeShip,
+    placeShipRandom,
     receiveAttack,
     shipsSank,
   };

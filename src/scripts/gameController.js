@@ -82,14 +82,9 @@ playerOne.rotate();
 playerOne.placeShip([5, 5], playerOne.getShip('four'));
 playerOne.placeShip([5, 6], playerOne.getShip('five'));
 
-cpuPlayer.placeShip([0, 1], cpuPlayer.getShip('two'));
-cpuPlayer.placeShip([1, 2], cpuPlayer.getShip('threeOne'));
-cpuPlayer.placeShip([2, 3], cpuPlayer.getShip('threeTwo'));
-cpuPlayer.rotate();
-cpuPlayer.placeShip([5, 5], cpuPlayer.getShip('four'));
-cpuPlayer.placeShip([5, 6], cpuPlayer.getShip('five'));
+cpuPlayer.placeAllShips();
 
-renderHiddenGrid(cpuPlayer.boardArray());
+renderGrid(cpuPlayer.boardArray());
 
 section.addEventListener('click', (event) => {
   if (playerHasWon === false) {
