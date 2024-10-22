@@ -1,9 +1,7 @@
-const sections = document.querySelectorAll('section');
-const boardOne = sections[0];
-const boardTwo = sections[1];
+const board = document.querySelector('section');
 
-const renderGrid = function renderPlayerOneGrid(array) {
-  boardOne.replaceChildren();
+const renderGrid = function renderGridWithShips(array) {
+  board.replaceChildren();
   const flatArray = array.flat();
   flatArray.forEach((el) => {
     const div = document.createElement('div');
@@ -21,12 +19,12 @@ const renderGrid = function renderPlayerOneGrid(array) {
       div.classList.add('hit');
     }
 
-    boardOne.appendChild(div);
+    board.appendChild(div);
   });
 };
 
-const renderCompGrid = function renderComputerGrid(array) {
-  boardTwo.replaceChildren();
+const renderHiddenGrid = function renderGridWithHiddenShips(array) {
+  board.replaceChildren();
   const flatArray = array.flat();
   flatArray.forEach((el) => {
     const div = document.createElement('div');
@@ -40,7 +38,7 @@ const renderCompGrid = function renderComputerGrid(array) {
       div.classList.add('hit');
     }
 
-    boardTwo.appendChild(div);
+    board.appendChild(div);
   });
 };
 
@@ -58,4 +56,4 @@ const announceWin = function announceRoundWinner(string) {
   heading.textContent = string;
 };
 
-export { renderGrid, renderCompGrid, handleClick, announceWin };
+export { renderGrid, renderHiddenGrid, handleClick, announceWin };

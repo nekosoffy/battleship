@@ -1,9 +1,14 @@
 import { player, computer } from './player';
-import { renderGrid, renderCompGrid, handleClick, announceWin } from './render';
+import {
+  renderGrid,
+  renderHiddenGrid,
+  handleClick,
+  announceWin,
+} from './render';
 import '../styles/reset.css';
 import '../styles/styles.css';
 
-const sections = document.querySelectorAll('section');
+const section = document.querySelector('section');
 
 let playerOneTurn = true;
 let playerHasWon = false;
@@ -20,38 +25,14 @@ const checkWin = function checkWinCondition() {
   }
 };
 
-const playTurn = function playGameTurn(target) {
-  if (playerOneTurn === true && target.parentNode.id === 'first-board') {
-    const clickedCoordinate = handleClick(target);
-    const sucessfulShot = playerOne.receiveAttack(
-      clickedCoordinate[0],
-      clickedCoordinate[1],
-    );
-
-    if (sucessfulShot) {
-      renderGrid(playerOne.boardArray());
-      playerOneTurn = false;
-      checkWin();
-      return;
-    }
-  }
-
-  if (playerOneTurn === false && target.parentNode.id === 'second-board') {
-    const clickedCoordinate = handleClick(target);
-    const sucessfulShot = computer.receiveAttack(
-      clickedCoordinate[0],
-      clickedCoordinate[1],
-    );
-    if (sucessfulShot) {
-      renderCompGrid(computer.boardArray());
-      playerOneTurn = true;
-      checkWin();
-    }
-  }
-};
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 const playPC = function playGameTurn(target) {
-  if (playerOneTurn === true && target.parentNode.id === 'second-board') {
+  if (playerOneTurn === true) {
     const clickedCoordinate = handleClick(target);
     const validShot = cpuPlayer.receiveAttack(
       clickedCoordinate[0],
@@ -59,11 +40,15 @@ const playPC = function playGameTurn(target) {
     );
 
     if (validShot) {
-      renderCompGrid(cpuPlayer.boardArray());
+      renderHiddenGrid(cpuPlayer.boardArray());
       playerOneTurn = false;
       checkWin();
 
-      setTimeout(() => {
+      const cpuTurn = async () => {
+        await delay(2000);
+        renderGrid(playerOne.boardArray());
+
+        await delay(2000);
         const cpuTarget = cpuPlayer.makePlay();
         const shot = playerOne.receiveAttack(cpuTarget[0], cpuTarget[1]);
 
@@ -73,9 +58,19 @@ const playPC = function playGameTurn(target) {
           cpuPlayer.setLastHitShot(cpuTarget);
         }
 
-        playerOneTurn = true;
         checkWin();
-      }, 2000);
+
+        if (!playerHasWon) {
+          await delay(2000);
+          renderHiddenGrid(cpuPlayer.boardArray());
+
+          playerOneTurn = true;
+        }
+      };
+
+      if (!playerHasWon) {
+        cpuTurn();
+      }
     }
   }
 };
@@ -94,14 +89,11 @@ cpuPlayer.rotate();
 cpuPlayer.placeShip([5, 5], cpuPlayer.getShip('four'));
 cpuPlayer.placeShip([5, 6], cpuPlayer.getShip('five'));
 
-renderGrid(playerOne.boardArray());
-renderCompGrid(cpuPlayer.boardArray());
+renderHiddenGrid(cpuPlayer.boardArray());
 
-sections.forEach((el) => {
-  el.addEventListener('click', (event) => {
-    if (playerHasWon === false) {
-      const { target } = event;
-      playPC(target);
-    }
-  });
+section.addEventListener('click', (event) => {
+  if (playerHasWon === false) {
+    const { target } = event;
+    playPC(target);
+  }
 });
