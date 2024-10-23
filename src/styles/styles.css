@@ -1,5 +1,18 @@
+@font-face {
+  font-family: 'open_sansregular';
+  src: url('../fonts/opensans-regular-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   padding: 10px;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'open_sansregular', sans-serif;
 }
 
 h1 {
@@ -12,15 +25,9 @@ h2 {
   margin-top: 10px;
 }
 
-main {
-  display: flex;
-  gap: 10vw;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 section {
   width: 500px;
+  max-width: 90vw;
   grid-template-columns: repeat(10, 1fr);
   display: grid;
   flex-wrap: wrap;
@@ -32,6 +39,8 @@ section > div {
   align-items: center;
   border: 2px solid black;
   aspect-ratio: 1/1;
+  flex: 1;
+  padding: 2px;
 }
 
 .hit {
@@ -43,25 +52,47 @@ button {
   align-self: center;
 }
 
+.main-wrapper > div {
+  width: 500px;
+  display: flex;
+  justify-content: center;
+}
+
+.main-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  max-width: 500px;
+}
+
 aside {
   outline: 1px solid black;
   padding: 10px;
-  margin-top: 10px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .ship {
   cursor: pointer;
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: 1fr;
-  width: 500px;
+  grid-template-columns: repeat(5, max(30px, 50px));
 }
 
-.ship > p {
-  aspect-ratio: 1/1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.reset-btn {
+  margin-right: 10px;
 }
 
 .hidden {
@@ -77,4 +108,3 @@ aside {
   background-color: rgb(117, 11, 11);
   border-color: brown;
 }
-

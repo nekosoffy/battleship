@@ -35,15 +35,14 @@ const enableShipPlacement = function enableShipPlacementOnGrid() {
     });
   };
 
-  divs.forEach((el) => {
-    if (el.textContent === 'O') {
-      el.classList.add('occupied');
-    }
+  section.addEventListener('drop', (event) => {
+    event.preventDefault();
+    const { target } = event;
 
-    el.addEventListener('drop', (event) => {
-      const { target } = event;
-      const sourceElemData = event.dataTransfer.getData('text');
-      const sourceElemId = document.getElementById(sourceElemData);
+    const sourceElemData = event.dataTransfer.getData('text');
+    const sourceElemId = document.getElementById(sourceElemData);
+
+    if (!target.classList.contains('occupied')) {
       const coordinate = handleClick(target);
       const validCoordinate = playerOne.placeShip(
         coordinate,
@@ -54,14 +53,26 @@ const enableShipPlacement = function enableShipPlacementOnGrid() {
         renderGrid(playerOne.boardArray());
         sourceElemId.remove();
       }
+    }
 
-      removeHighlight();
-      enableShipPlacement();
-
-      if (!aside.childNodes.length) {
-        document.querySelector('.start-btn').disabled = false;
-      }
+    section.querySelectorAll('.highlight').forEach((square) => {
+      square.classList.remove('highlight');
+      square.classList.remove('invalid');
     });
+
+    removeHighlight();
+    enableShipPlacement();
+
+    if (!aside.childNodes.length) {
+      document.querySelector('.start-btn').disabled = false;
+      aside.classList.add('hidden');
+    }
+  });
+
+  divs.forEach((el) => {
+    if (el.childNodes.length !== 0) {
+      el.classList.add('occupied');
+    }
 
     el.addEventListener('dragover', (event) => {
       event.preventDefault();
@@ -79,10 +90,12 @@ const enableShipPlacement = function enableShipPlacementOnGrid() {
 };
 
 const resetShips = function resetShipPlacement() {
+  const aside = document.querySelector('aside');
   reset();
   showShips();
   renderGrid(playerOne.boardArray());
   enableShipPlacement();
+  aside.classList.remove('hidden');
 };
 
 const checkWin = function checkWinCondition() {

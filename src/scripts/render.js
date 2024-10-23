@@ -1,3 +1,8 @@
+import alien from '../images/alien.png';
+import airplane from '../images/plane.svg';
+import fire from '../images/fire.svg';
+import energy from '../images/energy.svg';
+
 let currentShipSize;
 
 const main = document.querySelector('main');
@@ -41,15 +46,15 @@ const renderGrid = function renderGridWithShips(array) {
     const div = document.createElement('div');
 
     if (el === 'miss') {
-      div.textContent = 'X';
+      create('img', div, '', 'src', energy, '', '');
     }
 
     if (typeof el === 'object' && el !== null) {
-      div.textContent = 'O';
+      create('img', div, '', 'src', airplane, '', '');
     }
 
     if (el === 'hit') {
-      div.textContent = 'O';
+      create('img', div, '', 'src', airplane, '', '');
       div.classList.add('hit');
     }
 
@@ -79,11 +84,11 @@ const renderHiddenGrid = function renderGridWithHiddenShips(array) {
     const div = document.createElement('div');
 
     if (el === 'miss') {
-      div.textContent = 'X';
+      create('img', div, '', 'src', fire, '', '');
     }
 
     if (el === 'hit') {
-      div.textContent = 'O';
+      create('img', div, '', 'src', alien, '', '');
       div.classList.add('hit');
     }
 
@@ -110,9 +115,8 @@ const announceWin = function announceRoundWinner(string) {
 const showShips = function showShipsForPlacement() {
   function cheese(num, element) {
     for (let i = 0; i < num; i++) {
-      const p = document.createElement('p');
-      p.textContent = 'O';
-      element.appendChild(p);
+      const img = create('img', element, '', 'src', airplane, '', '');
+      img.draggable = false;
     }
   }
 
@@ -182,10 +186,7 @@ const gridHighlight = function gridHightlightWhenDragging(x, y, rect) {
 
   // Calculate the target index based on nearest cell
   const targetIndex = row * 10 + column;
-
-  // Use this index instead of the actual div being dragged over
-  const index = Math.max(0, Math.min(targetIndex, 99)); // Clamp between 0-99
-
+  const index = Math.max(0, Math.min(targetIndex, 99));
   const columns = 10;
 
   section.querySelectorAll('.highlight').forEach((square) => {
