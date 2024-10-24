@@ -95,42 +95,37 @@ const handleClick = function handleGridClick(target) {
 };
 
 const showShips = function showShipsForPlacement() {
-  function cheese(num, element) {
+  const shipsContainer = document.querySelector('aside');
+
+  function createShipElement(num, size) {
+    const div = create(
+      'div',
+      shipsContainer,
+      'ship',
+      'draggable',
+      'true',
+      size,
+    );
+
     for (let i = 0; i < num; i++) {
-      const img = create('img', element, '', 'src', airplane, '', '');
+      const img = create('img', div, '', 'src', airplane, '', '');
       img.draggable = false;
     }
+
+    return div;
   }
 
-  const aside = document.querySelector('aside');
+  const shipSizes = [
+    { num: 2, size: 'two' },
+    { num: 3, size: 'threeOne' },
+    { num: 3, size: 'threeTwo' },
+    { num: 4, size: 'four' },
+    { num: 5, size: 'five' },
+  ];
 
-  if (aside.classList.contains('hidden')) {
-    aside.classList.remove('hidden');
-  }
+  shipSizes.forEach(({ num, size }) => createShipElement(num, size));
 
-  aside.replaceChildren();
-
-  const divOne = create('div', aside, 'ship', 'draggable', 'true', 'two');
-  const divTwo = create('div', aside, 'ship', 'draggable', 'true', 'threeOne');
-  const divThree = create(
-    'div',
-    aside,
-    'ship',
-    'draggable',
-    'true',
-    'threeTwo',
-  );
-  const divFour = create('div', aside, 'ship', 'draggable', 'true', 'four');
-  const divFive = create('div', aside, 'ship', 'draggable', 'true', 'five');
-
-  const divs = aside.querySelectorAll('div');
-
-  cheese(2, divOne);
-  cheese(3, divTwo);
-  cheese(3, divThree);
-  cheese(4, divFour);
-  cheese(5, divFive);
-
+  const divs = shipsContainer.querySelectorAll('div');
   divs.forEach((el) => {
     el.addEventListener('dragstart', (event) => {
       event.dataTransfer.setData('text', event.target.id);
@@ -139,20 +134,42 @@ const showShips = function showShipsForPlacement() {
   });
 };
 
-const renderBtns = function renderShipPlacementButtons(
-  onReset,
-  onStart,
-  btnWrapper = document.querySelector('.btn-wrapper'),
-) {
-  const createButton = (className, text, callback) => {
-    const button = create('button', btnWrapper, className, null, '', '', text);
-    button.addEventListener('click', callback);
-    return button;
-  };
+const toggleShipsContainer = function toggleShipsContainerVisibility(mode) {
+  const shipsContainer = document.querySelector('aside');
+  const combatBtn = document.querySelector('.combat-btn');
 
-  createButton('reset-btn', 'Reset Placement', onReset);
-  const startBtn = createButton('start-btn', 'Begin Combat', onStart);
-  startBtn.disabled = true;
+  if (mode === 'off') {
+    shipsContainer.replaceChildren();
+    shipsContainer.classList.add('hidden');
+    combatBtn.disabled = false;
+    return;
+  }
+
+  if (mode === 'on') {
+    shipsContainer.replaceChildren();
+    showShips();
+    shipsContainer.classList.remove('hidden');
+    combatBtn.disabled = true;
+    return;
+  }
+
+  if (shipsContainer.childNodes.length === 0) {
+    shipsContainer.classList.toggle('hidden');
+    combatBtn.disabled = false;
+    return;
+  }
+
+  if (shipsContainer.classList.contains('hidden')) {
+    showShips();
+    shipsContainer.classList.toggle('hidden');
+    combatBtn.disabled = true;
+  }
+};
+
+const renderBtn = function renderNewButton(className, text) {
+  const btnWrapper = document.querySelector('.btn-wrapper');
+  const button = create('button', btnWrapper, className, null, '', '', text);
+  return button;
 };
 
 const gridHighlight = function gridHightlightWhenDragging(x, y, rect) {
@@ -226,7 +243,6 @@ const removeHighlights = function removeHightlightsFromGrid() {
 };
 
 const enableShipPlacement = function enableShipPlacementOnGrid(player) {
-  const aside = document.querySelector('aside');
   const section = document.querySelector('section');
   const divs = section.querySelectorAll('div');
 
@@ -250,11 +266,7 @@ const enableShipPlacement = function enableShipPlacementOnGrid(player) {
       }
     }
 
-    if (!aside.childNodes.length) {
-      document.querySelector('.start-btn').disabled = false;
-      aside.classList.add('hidden');
-    }
-
+    toggleShipsContainer();
     removeHighlights();
   });
 
@@ -279,17 +291,19 @@ const enableShipPlacement = function enableShipPlacementOnGrid(player) {
 };
 
 const announce = function announceInformation(string) {
-  const heading = document.querySelector('h1');
-  heading.textContent = string;
+  const infoBox = document.querySelector('.intro-wrapper');
+  infoBox.replaceChildren();
+  create('h2', infoBox, 'information', null, '', '', string);
 };
 
 export {
   renderGrid,
   handleClick,
   showShips,
-  renderBtns,
+  renderBtn,
   gridHighlight,
   removeHighlights,
   enableShipPlacement,
   announce,
+  toggleShipsContainer,
 };

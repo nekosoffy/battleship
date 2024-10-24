@@ -4,8 +4,9 @@ import {
   handleClick,
   announce,
   showShips,
-  renderBtns,
+  renderBtn,
   enableShipPlacement,
+  toggleShipsContainer,
 } from './render';
 import '../styles/reset.css';
 import '../styles/styles.css';
@@ -15,6 +16,8 @@ let cpuPlayer = computer();
 let playerHasWon = false;
 
 const playAgainstCpuBtn = document.getElementById('play-cpu-btn');
+const mainHeading = document.querySelector('h1');
+const container = document.querySelector('.container');
 
 const reset = function resetGameState() {
   playerHasWon = false;
@@ -23,22 +26,18 @@ const reset = function resetGameState() {
 };
 
 const resetShips = function resetShipPlacement() {
-  const aside = document.querySelector('aside');
   reset();
-  showShips();
   renderGrid(playerOne.boardArray());
   enableShipPlacement(playerOne);
-  aside.classList.remove('hidden');
+  toggleShipsContainer('on');
 };
 
-const checkWin = function checkWinCondition() {
-  if (playerOne.shipsSank()) {
-    playerHasWon = true;
-    announce('Computer has won!');
-  } else if (cpuPlayer.shipsSank()) {
-    playerHasWon = true;
-    announce('Player has won!');
-  }
+const handleRandomize = function handleRandomizedShipPlacement() {
+  reset();
+  playerOne.placeAllShips();
+  cpuPlayer.placeAllShips();
+  renderGrid(playerOne.boardArray());
+  toggleShipsContainer('off');
 };
 
 function delay(ms) {
@@ -47,7 +46,28 @@ function delay(ms) {
   });
 }
 
+const checkWin = function checkWinCondition() {
+  const replay = async () => {
+    await delay(1500);
+    const btnWrapper = document.querySelector('.btn-wrapper');
+    btnWrapper.replaceChildren();
+    btnWrapper.classList.remove('invisible');
+    renderBtn('replay-btn', 'Rematch!');
+  };
+
+  if (playerOne.shipsSank()) {
+    playerHasWon = true;
+    announce('You were annihilated...');
+    replay();
+  } else if (cpuPlayer.shipsSank()) {
+    playerHasWon = true;
+    announce('Humans have won!');
+    replay();
+  }
+};
+
 const update = function updateRenderAndEventListener(callback) {
+  announce('Your move!');
   renderGrid(cpuPlayer.boardArray(), 'hidden');
   const section = document.querySelector('section');
   section.addEventListener('click', (event) => {
@@ -70,12 +90,17 @@ const playAgainstComp = function playGameAgainstComputer(target) {
   }
 
   if (validShot) {
+    if (validShot === 'ship') {
+      announce('Your shot hit an alien!');
+    }
+
     renderGrid(cpuPlayer.boardArray(), 'hidden');
     checkWin();
 
     const cpuTurn = async () => {
       await delay(2000);
       renderGrid(playerOne.boardArray());
+      announce('The aliens are attacking...');
 
       await delay(2000);
       const cpuTarget = cpuPlayer.makePlay();
@@ -85,6 +110,7 @@ const playAgainstComp = function playGameAgainstComputer(target) {
 
       if (shot === 'ship') {
         cpuPlayer.setLastHitShot(cpuTarget);
+        announce('An unit was striked!');
       }
 
       checkWin();
@@ -101,21 +127,51 @@ const playAgainstComp = function playGameAgainstComputer(target) {
   }
 };
 
-const startGame = function startGameAfterShipPlacement() {
+const enterCombat = function enterCombatAfterShipPlacement() {
   const btnWrapper = document.querySelector('.btn-wrapper');
-  const aside = document.querySelector('aside');
   btnWrapper.classList.add('invisible');
-  aside.replaceChildren();
-  aside.classList.add('hidden');
+  toggleShipsContainer('off');
   update(playAgainstComp);
 };
 
-cpuPlayer.placeAllShips();
-
-playAgainstCpuBtn.addEventListener('click', () => {
+const startFreshGame = function startFreshGameAfterIntro() {
+  const btnWrapper = document.querySelector('.btn-wrapper');
+  btnWrapper.replaceChildren();
+  reset();
+  cpuPlayer.placeAllShips();
+  announce('Position your fleet!');
   renderGrid(playerOne.boardArray());
-  playAgainstCpuBtn.remove();
+  renderBtn('reset-btn', 'Reset Placement');
+  const combatBtn = renderBtn('combat-btn', 'Begin Combat');
+  renderBtn('random-btn', 'Randomize');
+  toggleShipsContainer();
   showShips();
   enableShipPlacement(playerOne);
-  renderBtns(resetShips, startGame);
+  combatBtn.disabled = true;
+};
+
+container.addEventListener('click', (event) => {
+  const { target } = event;
+
+  if (target.id === 'play-cpu-btn') {
+    mainHeading.remove();
+    playAgainstCpuBtn.remove();
+    startFreshGame();
+  }
+
+  if (target.classList.contains('reset-btn')) {
+    resetShips();
+  }
+
+  if (target.classList.contains('combat-btn')) {
+    enterCombat();
+  }
+
+  if (target.classList.contains('random-btn')) {
+    handleRandomize();
+  }
+
+  if (target.classList.contains('replay-btn')) {
+    startFreshGame();
+  }
 });
