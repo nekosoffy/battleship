@@ -1,12 +1,11 @@
 import { player, computer } from './player';
 import {
   renderGrid,
-  renderHiddenGrid,
   handleClick,
-  announceWin,
+  announce,
   showShips,
   renderBtns,
-  gridHighlight,
+  enableShipPlacement,
 } from './render';
 import '../styles/reset.css';
 import '../styles/styles.css';
@@ -23,88 +22,22 @@ const reset = function resetGameState() {
   cpuPlayer = computer();
 };
 
-const enableShipPlacement = function enableShipPlacementOnGrid() {
-  const section = document.querySelector('section');
-  const aside = document.querySelector('aside');
-  const divs = section.querySelectorAll('div');
-
-  const removeHighlight = () => {
-    section.querySelectorAll('.highlight').forEach((square) => {
-      square.classList.remove('highlight');
-      square.classList.remove('invalid');
-    });
-  };
-
-  section.addEventListener('drop', (event) => {
-    event.preventDefault();
-    const { target } = event;
-
-    const sourceElemData = event.dataTransfer.getData('text');
-    const sourceElemId = document.getElementById(sourceElemData);
-
-    if (!target.classList.contains('occupied') && !target.src) {
-      const coordinate = handleClick(target);
-      const validCoordinate = playerOne.placeShip(
-        coordinate,
-        playerOne.getShip(sourceElemData),
-      );
-
-      if (validCoordinate) {
-        renderGrid(playerOne.boardArray());
-        sourceElemId.remove();
-      }
-    }
-
-    section.querySelectorAll('.highlight').forEach((square) => {
-      square.classList.remove('highlight');
-      square.classList.remove('invalid');
-    });
-
-    removeHighlight();
-    enableShipPlacement();
-
-    if (!aside.childNodes.length) {
-      document.querySelector('.start-btn').disabled = false;
-      aside.classList.add('hidden');
-    }
-  });
-
-  divs.forEach((el) => {
-    if (el.childNodes.length !== 0) {
-      el.classList.add('occupied');
-    }
-
-    el.addEventListener('dragover', (event) => {
-      event.preventDefault();
-      const rect = section.getBoundingClientRect();
-      const cursorXRelativeToGrid = event.clientX - rect.left;
-      const cursorYRelativeToGrid = event.clientY - rect.top;
-      gridHighlight(cursorXRelativeToGrid, cursorYRelativeToGrid, rect);
-    });
-
-    el.addEventListener('dragleave', (event) => {
-      event.preventDefault();
-      removeHighlight();
-    });
-  });
-};
-
 const resetShips = function resetShipPlacement() {
   const aside = document.querySelector('aside');
   reset();
   showShips();
   renderGrid(playerOne.boardArray());
-  enableShipPlacement();
+  enableShipPlacement(playerOne);
   aside.classList.remove('hidden');
 };
 
 const checkWin = function checkWinCondition() {
   if (playerOne.shipsSank()) {
     playerHasWon = true;
-    announceWin('Computer has won!');
+    announce('Computer has won!');
   } else if (cpuPlayer.shipsSank()) {
     playerHasWon = true;
-    announceWin('Player has won!');
+    announce('Player has won!');
   }
 };
 
@@ -115,7 +48,7 @@ function delay(ms) {
 }
 
 const update = function updateRenderAndEventListener(callback) {
-  renderHiddenGrid(cpuPlayer.boardArray());
+  renderGrid(cpuPlayer.boardArray(), 'hidden');
   const section = document.querySelector('section');
   section.addEventListener('click', (event) => {
     if (playerHasWon === false) {
@@ -129,7 +62,6 @@ const playAgainstComp = function playGameAgainstComputer(target) {
   let validShot = false;
 
   if (target.childNodes.length === 0 && !target.src) {
-    console.log(target.childNodes.length);
     const clickedCoordinate = handleClick(target);
     validShot = cpuPlayer.receiveAttack(
       clickedCoordinate[0],
@@ -138,7 +70,7 @@ const playAgainstComp = function playGameAgainstComputer(target) {
   }
 
   if (validShot) {
-    renderHiddenGrid(cpuPlayer.boardArray());
+    renderGrid(cpuPlayer.boardArray(), 'hidden');
     checkWin();
 
     const cpuTurn = async () => {
@@ -172,7 +104,7 @@ const playAgainstComp = function playGameAgainstComputer(target) {
 const startGame = function startGameAfterShipPlacement() {
   const btnWrapper = document.querySelector('.btn-wrapper');
   const aside = document.querySelector('aside');
-  btnWrapper.replaceChildren();
+  btnWrapper.classList.add('invisible');
   aside.replaceChildren();
   aside.classList.add('hidden');
   update(playAgainstComp);
@@ -184,6 +116,6 @@ playAgainstCpuBtn.addEventListener('click', () => {
   renderGrid(playerOne.boardArray());
   playAgainstCpuBtn.remove();
   showShips();
-  enableShipPlacement();
+  enableShipPlacement(playerOne);
   renderBtns(resetShips, startGame);
 });

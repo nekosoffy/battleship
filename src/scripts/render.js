@@ -38,13 +38,8 @@ const create = function createDOMElement(
   return el;
 };
 
-const renderGrid = function renderGridWithShips(array) {
-  main.replaceChildren();
-  const section = document.createElement('section');
-  const flatArray = array.flat();
-  flatArray.forEach((el) => {
-    const div = document.createElement('div');
-
+const renderGrid = function renderGridWithShips(array, mode = 'open') {
+  const openGrid = (el, div) => {
     if (el === 'miss') {
       create('img', div, '', 'src', energy, '', '');
     }
@@ -57,32 +52,9 @@ const renderGrid = function renderGridWithShips(array) {
       create('img', div, '', 'src', airplane, '', '');
       div.classList.add('hit');
     }
+  };
 
-    div.addEventListener('dragover', (event) => {
-      event.preventDefault();
-      const shipSize = event.dataTransfer.getData('size');
-      const index = [...section.children].indexOf(div);
-
-      for (let i = 0; i < shipSize; i++) {
-        const highlightSquare = section.children[index + i];
-        if (highlightSquare) {
-          highlightSquare.classList.add('highlight');
-        }
-      }
-    });
-
-    section.appendChild(div);
-  });
-  main.prepend(section);
-};
-
-const renderHiddenGrid = function renderGridWithHiddenShips(array) {
-  main.replaceChildren();
-  const section = document.createElement('section');
-  const flatArray = array.flat();
-  flatArray.forEach((el) => {
-    const div = document.createElement('div');
-
+  const hiddenGrid = (el, div) => {
     if (el === 'miss') {
       create('img', div, '', 'src', fire, '', '');
     }
@@ -90,6 +62,21 @@ const renderHiddenGrid = function renderGridWithHiddenShips(array) {
     if (el === 'hit') {
       create('img', div, '', 'src', alien, '', '');
       div.classList.add('hit');
+    }
+  };
+
+  main.replaceChildren();
+  const section = document.createElement('section');
+  const flatArray = array.flat();
+  flatArray.forEach((el) => {
+    const div = document.createElement('div');
+
+    if (mode === 'open') {
+      openGrid(el, div);
+    }
+
+    if (mode === 'hidden') {
+      hiddenGrid(el, div);
     }
 
     section.appendChild(div);
@@ -105,11 +92,6 @@ const handleClick = function handleGridClick(target) {
   const x = Math.floor(coordinate / 10);
   const y = coordinate % 10;
   return [x, y];
-};
-
-const announceWin = function announceRoundWinner(string) {
-  const heading = document.querySelector('h2');
-  heading.textContent = string;
 };
 
 const showShips = function showShipsForPlacement() {
@@ -169,7 +151,7 @@ const renderBtns = function renderShipPlacementButtons(
   };
 
   createButton('reset-btn', 'Reset Placement', onReset);
-  const startBtn = createButton('start-btn', 'Start Game', onStart);
+  const startBtn = createButton('start-btn', 'Begin Combat', onStart);
   startBtn.disabled = true;
 };
 
@@ -235,12 +217,79 @@ const gridHighlight = function gridHightlightWhenDragging(x, y, rect) {
   }
 };
 
+const removeHighlights = function removeHightlightsFromGrid() {
+  const section = document.querySelector('section');
+  section.querySelectorAll('.highlight').forEach((square) => {
+    square.classList.remove('highlight');
+    square.classList.remove('invalid');
+  });
+};
+
+const enableShipPlacement = function enableShipPlacementOnGrid(player) {
+  const aside = document.querySelector('aside');
+  const section = document.querySelector('section');
+  const divs = section.querySelectorAll('div');
+
+  section.addEventListener('drop', (event) => {
+    event.preventDefault();
+    const { target } = event;
+    const draggableData = event.dataTransfer.getData('text');
+    const draggableID = document.getElementById(draggableData);
+
+    if (!target.classList.contains('occupied') && !target.src) {
+      const coordinate = handleClick(target);
+      const validCoordinate = player.placeShip(
+        coordinate,
+        player.getShip(draggableData),
+      );
+
+      if (validCoordinate) {
+        renderGrid(player.boardArray());
+        draggableID.remove();
+        enableShipPlacement(player);
+      }
+    }
+
+    if (!aside.childNodes.length) {
+      document.querySelector('.start-btn').disabled = false;
+      aside.classList.add('hidden');
+    }
+
+    removeHighlights();
+  });
+
+  section.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    const rect = section.getBoundingClientRect();
+    const cursorXRelativeToGrid = event.clientX - rect.left;
+    const cursorYRelativeToGrid = event.clientY - rect.top;
+    gridHighlight(cursorXRelativeToGrid, cursorYRelativeToGrid, rect);
+  });
+
+  section.addEventListener('dragleave', (event) => {
+    event.preventDefault();
+    removeHighlights();
+  });
+
+  divs.forEach((el) => {
+    if (el.childNodes.length !== 0) {
+      el.classList.add('occupied');
+    }
+  });
+};
+
+const announce = function announceInformation(string) {
+  const heading = document.querySelector('h1');
+  heading.textContent = string;
+};
+
 export {
   renderGrid,
-  renderHiddenGrid,
   handleClick,
-  announceWin,
   showShips,
   renderBtns,
   gridHighlight,
+  removeHighlights,
+  enableShipPlacement,
+  announce,
 };
