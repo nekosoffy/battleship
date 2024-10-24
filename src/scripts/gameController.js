@@ -42,7 +42,7 @@ const enableShipPlacement = function enableShipPlacementOnGrid() {
     const sourceElemData = event.dataTransfer.getData('text');
     const sourceElemId = document.getElementById(sourceElemData);
 
-    if (!target.classList.contains('occupied')) {
+    if (!target.classList.contains('occupied') && !target.src) {
       const coordinate = handleClick(target);
       const validCoordinate = playerOne.placeShip(
         coordinate,
@@ -126,11 +126,16 @@ const update = function updateRenderAndEventListener(callback) {
 };
 
 const playAgainstComp = function playGameAgainstComputer(target) {
-  const clickedCoordinate = handleClick(target);
-  const validShot = cpuPlayer.receiveAttack(
-    clickedCoordinate[0],
-    clickedCoordinate[1],
-  );
+  let validShot = false;
+
+  if (target.childNodes.length === 0 && !target.src) {
+    console.log(target.childNodes.length);
+    const clickedCoordinate = handleClick(target);
+    validShot = cpuPlayer.receiveAttack(
+      clickedCoordinate[0],
+      clickedCoordinate[1],
+    );
+  }
 
   if (validShot) {
     renderHiddenGrid(cpuPlayer.boardArray());
