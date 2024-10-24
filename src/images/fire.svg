@@ -1,7 +1,7 @@
 <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="fireGradient" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:rgb(255, 0, 0); stop-opacity:1" />
+      <stop offset="0%" style="stop-color:rgb(185, 1, 1); stop-opacity:1" />
       <stop offset="100%" style="stop-color:rgb(172, 71, 12); stop-opacity:1" />
     </linearGradient>
   </defs>
