@@ -13,16 +13,37 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'open_sansregular', sans-serif;
+  background: #195579;
+  background: linear-gradient(
+    to right,
+    #2e6d92,#66432e
+  );
+  color: rgb(15, 15, 15);
 }
 
-h1 {
+.h1-intro {
   text-align: center;
-  margin-bottom: 10px;
+  margin: 0;
+  font-size: 8rem;
 }
 
-h2 {
+.h2-intro {
   text-align: center;
   margin-top: 10px;
+  font-style: italic;
+  margin-bottom: 10px;
+  font-size: 5rem;
+  color: rgb(21, 15, 39);
+}
+
+.intro-wrapper > img {
+  width: 60px;
+}
+
+.intro-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 section {
@@ -31,20 +52,25 @@ section {
   grid-template-columns: repeat(10, 1fr);
   display: grid;
   flex-wrap: wrap;
+  border-radius: 5px;
+  border: 2px solid black;
+  gap: 1px;
+  color: rgb(172, 71, 12);
 }
 
 section > div {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid black;
   aspect-ratio: 1/1;
   flex: 1;
   padding: 2px;
+  outline: 1px solid black;
 }
 
 .hit {
-  background-color: rgb(238, 81, 81);
+  background-color: rgb(211, 62, 62);
+  border: 2px solid rgb(75, 21, 21);
 }
 
 button {
@@ -52,18 +78,20 @@ button {
   align-self: center;
 }
 
-.main-wrapper > div {
-  width: 500px;
+.container {
   display: flex;
-  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .main-wrapper {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
   flex-wrap: wrap;
+  transition: all 10s ease;
 }
 
 main {
@@ -74,15 +102,23 @@ main {
   max-width: 500px;
 }
 
+.aside-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 aside {
-  outline: 1px solid black;
+  outline: 2px solid black;
   padding: 10px;
   width: 300px;
+  aspect-ratio: 1/1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  border-radius: 2px;
 }
 
 .ship {
@@ -99,6 +135,10 @@ aside {
   display: none;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .highlight {
   border-color: green;
   background-color: rgba(0, 255, 0, 0.1);
@@ -107,4 +147,25 @@ aside {
 .invalid {
   background-color: rgb(117, 11, 11);
   border-color: brown;
+}
+
+button {
+  border: none;
+  border-radius: 2px;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3 ease;
+}
+
+button:hover, button:active {
+  filter: brightness(120%);
+}
+
+#play-cpu-btn {
+  font-size: 3rem;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: rgb(153, 42, 42);
+  color: rgb(223, 207, 207);
 }
