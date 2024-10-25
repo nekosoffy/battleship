@@ -183,7 +183,7 @@ button {
   padding: 10px;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.3 ease;
+  transition: all 0.5;
   padding: 10px;
   border-radius: 5px;
   color: rgb(223, 207, 207);
@@ -192,6 +192,11 @@ button {
 
 button:hover, button:active {
   filter: brightness(120%);
+  transform: translateY(-3px);
+}
+
+button:active {
+  transform: scale(0.95);
 }
 
 #play-cpu-btn, .replay-btn {
@@ -209,6 +214,7 @@ button:hover, button:active {
 
 .combat-btn[disabled]:hover {
   filter: none;
+  transform: none;
 }
 
 .field {
