@@ -83,13 +83,22 @@ section > div {
   align-items: center;
   aspect-ratio: 1/1;
   flex: 1;
-  padding: 2px;
   outline: 1px solid black;
+  padding: 2px;
+}
+
+.hover {
+  background-color: rgba(76, 128, 161, 0.4);
+}
+
+.miss {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .hit {
-  background-color: rgb(211, 62, 62);
-  border: 2px solid rgb(75, 21, 21);
+  background-color: rgba(201, 24, 24, 0.842);
+  border: 1px solid rgb(10, 10, 10);
+  border-radius: 5px;
 }
 
 button {
@@ -161,7 +170,7 @@ aside {
 }
 
 .highlight {
-  background-color: rgba(72, 241, 72, 0.37);
+  background-color: rgba(54, 247, 54, 0.363);
 }
 
 .invalid {
@@ -201,3 +210,8 @@ button:hover, button:active {
 .combat-btn[disabled]:hover {
   filter: none;
 }
+
+.field {
+  cursor: crosshair;
+}
+

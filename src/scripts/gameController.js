@@ -7,6 +7,7 @@ import {
   renderBtn,
   enableShipPlacement,
   toggleShipsContainer,
+  addCursor,
 } from './render';
 import '../styles/reset.css';
 import '../styles/styles.css';
@@ -69,6 +70,7 @@ const checkWin = function checkWinCondition() {
 const update = function updateRenderAndEventListener(callback) {
   announce('Your move!');
   renderGrid(cpuPlayer.boardArray(), 'hidden');
+  addCursor();
   const section = document.querySelector('section');
   section.addEventListener('click', (event) => {
     if (playerHasWon === false) {
@@ -95,6 +97,7 @@ const playAgainstComp = function playGameAgainstComputer(target) {
     }
 
     renderGrid(cpuPlayer.boardArray(), 'hidden');
+    addCursor();
     checkWin();
 
     const cpuTurn = async () => {

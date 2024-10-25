@@ -57,6 +57,7 @@ const renderGrid = function renderGridWithShips(array, mode = 'open') {
   const hiddenGrid = (el, div) => {
     if (el === 'miss') {
       create('img', div, '', 'src', fire, '', '');
+      div.classList.add('miss');
     }
 
     if (el === 'hit') {
@@ -77,6 +78,14 @@ const renderGrid = function renderGridWithShips(array, mode = 'open') {
 
     if (mode === 'hidden') {
       hiddenGrid(el, div);
+
+      div.addEventListener('mouseenter', () => {
+        div.classList.add('hover');
+      });
+
+      div.addEventListener('mouseleave', () => {
+        div.classList.remove('hover');
+      });
     }
 
     section.appendChild(div);
@@ -296,6 +305,11 @@ const announce = function announceInformation(string) {
   create('h2', infoBox, 'information', null, '', '', string);
 };
 
+const addCursor = function addAimCursor() {
+  const section = document.querySelector('section');
+  section.classList.add('field');
+};
+
 export {
   renderGrid,
   handleClick,
@@ -306,4 +320,5 @@ export {
   enableShipPlacement,
   announce,
   toggleShipsContainer,
+  addCursor,
 };
