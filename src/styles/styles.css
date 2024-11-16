@@ -192,7 +192,6 @@ button {
 
 button:hover, button:active {
   filter: brightness(120%);
-  transform: translateY(-3px);
 }
 
 button:active {
