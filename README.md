@@ -1,6 +1,6 @@
 # Battleship Game
 
-:arrow_forward:  **[Live preview!](https://nekosoffy.github.io/battleship/)**
+:arrow_forward:  **[Live preview!](https://softy-dev.github.io/battleship/)**
 
 Implementation of a classic strategy game where players take turns guessing the locations of their opponent's ships on a 10x10 grid. The game is designed to be played against a computer AI, offering an engaging challenge for the player. The theme of this implementation is shifted from ships to aircrafts, in a battle of humans against aliens.
 
