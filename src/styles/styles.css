@@ -19,6 +19,7 @@ body {
     #2e6d92,#66432e
   );
   color: rgb(15, 15, 15);
+  overflow-y: scroll;
 }
 
 .h1-intro {
@@ -220,3 +221,8 @@ button:active {
   cursor: crosshair;
 }
 
+.btn-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
